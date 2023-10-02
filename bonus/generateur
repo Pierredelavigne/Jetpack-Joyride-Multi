@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+import random
+
+def generate_map(width, height, obstacle_density, coin_density):
+    map_data = []
+    
+    for _ in range(height):
+        row = []
+        for _ in range(width):
+            if random.random() < obstacle_density:
+                row.append('e')  # Obstacle
+            elif random.random() < coin_density:
+                row.append('c')  # Coin
+            else:
+                row.append('_')  # Empty space
+        map_data.append(row)
+    
+    return map_data
+
+def save_map_to_file(map_data, filename):
+    with open(filename, 'w') as file:
+        for row in map_data:
+            file.write(' '.join(row).ljust(len(row) * 2) + '\n')
+
+# Example usage
+map_sizes = [(110, 10), (140, 10), (300, 10)]
+obstacle_densities = [0.05, 0.01, 0.2]
+coin_densities = [0.1, 0.2, 0.4]
+output_files = ['map1.txt', 'map2.txt', 'map3.txt']
+
+for i in range(len(map_sizes)):
+    width, height = map_sizes[i]
+    obstacle_density = obstacle_densities[i]
+    coin_density = coin_densities[i]
+    output_file = output_files[i]
+
+    map_data = generate_map(width, height, obstacle_density, coin_density)
+    save_map_to_file(map_data, output_file)
